@@ -258,6 +258,11 @@
   // back, so this is a way to try and fix that
   [self.view.window makeKeyWindow];
 
+  // This controller may not destroyed before viewDidUnload is called. If that happened,
+  // _webView may access a dangling pointer and cause app crash. A quick fix is to clear
+  // the delegate here.
+  _webView.delegate = nil;
+
   [super viewWillDisappear:animated];
 }
 
